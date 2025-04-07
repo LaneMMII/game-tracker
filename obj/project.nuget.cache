@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "e4+ZADvrFZQ=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\lanes\\game-tracker\\GameTracker.Api\\GameTracker.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lanes\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.3\\microsoft.aspnetcore.openapi.9.0.3.nupkg.sha512",
+    "C:\\Users\\lanes\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
