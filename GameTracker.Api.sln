@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameTracker.Api", "GameTracker.Api.csproj", "{EDF837F6-2E37-3DB1-2D4B-BF8041D6DDCA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDF837F6-2E37-3DB1-2D4B-BF8041D6DDCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDF837F6-2E37-3DB1-2D4B-BF8041D6DDCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDF837F6-2E37-3DB1-2D4B-BF8041D6DDCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDF837F6-2E37-3DB1-2D4B-BF8041D6DDCA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6FE83387-EAE3-4B19-8E56-02357DD94FFA}
+	EndGlobalSection
+EndGlobal
