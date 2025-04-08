@@ -1,0 +1,17 @@
+<div *ngIf="errorMessage">
+  <p class="error">{{ errorMessage }}</p>
+</div>
+
+<div *ngIf="games && games.length > 0; else noGames">
+  <h2>Game List</h2>
+  <ul>
+    <li *ngFor="let game of games">
+      <strong>{{ game.title }}</strong> - {{ game.genre }}
+      <span *ngIf="game.platform"> (Platform: {{ game.platform.name }})</span>
+    </li>
+  </ul>
+</div>
+
+<ng-template #noGames>
+  <p>No games found. Add some games to your database and refresh.</p>
+</ng-template>

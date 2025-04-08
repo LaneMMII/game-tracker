@@ -4,21 +4,34 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+// Register controllers so that MVC controllers (like your GamesController) are discovered.
+builder.Services.AddControllers();
+
+// OpenAPI configuration (optional, for Swagger UI)
 builder.Services.AddOpenApi();
+
+// Register your DbContext (make sure your connection string "DefaultConnection" is set in appsettings.json)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
+    // Map the OpenAPI/Swagger endpoint
     app.MapOpenApi();
 }
 
+// This middleware ensures that HTTP requests are redirected to HTTPS.
 app.UseHttpsRedirection();
 
+// Map controller endpoints so that attribute-based routing in your controllers is active.
+app.MapControllers();
+
+// The weather forecast minimal API below is just an example and can be kept or removed.
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
