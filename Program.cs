@@ -31,6 +31,15 @@ app.UseHttpsRedirection();
 // Map controller endpoints so that attribute-based routing in your controllers is active.
 app.MapControllers();
 
+// Seed the database with initial data if it is empty.
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    // Optionally, ensure migrations are applied:
+    // dbContext.Database.Migrate();
+    DbInit.Seed(dbContext);
+}
+
 // The weather forecast minimal API below is just an example and can be kept or removed.
 var summaries = new[]
 {
