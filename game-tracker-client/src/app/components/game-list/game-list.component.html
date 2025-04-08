@@ -2,6 +2,10 @@
   <p class="error">{{ errorMessage }}</p>
 </div>
 
+<div>
+  <button [routerLink]="['/games/create']">Create Game</button>
+</div>
+
 <ng-container *ngIf="games$ | async as games">
   <div *ngIf="games.length > 0; else noGames">
     <h2>Game List</h2>
