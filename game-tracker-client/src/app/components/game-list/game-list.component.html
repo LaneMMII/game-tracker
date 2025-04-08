@@ -2,18 +2,20 @@
   <p class="error">{{ errorMessage }}</p>
 </div>
 
-<div *ngIf="games && games.length > 0; else noGames">
-  <h2>Game List</h2>
-  <ul>
-    <li *ngFor="let game of games">
-      <a [routerLink]="['/games', game.gameId]">
-        <strong>{{ game.title }}</strong> - {{ game.genre }}
-        <span *ngIf="game.platform; else noPlatform"> (Platform: {{ game.platform.name }})</span>
-        <ng-template #noPlatform> (Platform: Unknown)</ng-template>
-      </a>
-    </li>
-  </ul>
-</div>
+<ng-container *ngIf="games$ | async as games">
+  <div *ngIf="games.length > 0; else noGames">
+    <h2>Game List</h2>
+    <ul>
+      <li *ngFor="let game of games">
+        <a [routerLink]="['/games', game.gameId]">
+          <strong>{{ game.title }}</strong> - {{ game.genre }}
+          <span *ngIf="game.platform; else noPlatform"> (Platform: {{ game.platform.name }})</span>
+          <ng-template #noPlatform> (Platform: Unknown)</ng-template>
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-container>
 
 <ng-template #noGames>
   <p>No games found. Please add some games to the database.</p>

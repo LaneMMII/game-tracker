@@ -1,31 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameService, Game } from '../../services/game.service';
+import { GameService } from '../../services/game.service';
 import { RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Game } from '../../services/game.service'; // Importing Game interface from game.service
 
 @Component({
   selector: 'app-game-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],   // Imports CommonModule so that *ngIf and *ngFor work in the template
+  imports: [CommonModule, RouterModule], // Imports CommonModule so that *ngIf and *ngFor work in the template
   templateUrl: './game-list.component.html',
   styleUrls: ['./game-list.component.css']
 })
-export class GameListComponent implements OnInit {
-  games: Game[] = [];
-  errorMessage: string = '';
-
-  constructor(private gameService: GameService) { }
-
-  ngOnInit(): void {
-    this.gameService.getGames().subscribe({
-      next: (data) => {
-        console.log('Games received:', data); // Log the data
-        this.games = data;
-      },
-      error: (err) => {
-        console.error('Error fetching games:', err); // Log the error
-        this.errorMessage = err.message;
-      }
-    });
+export class GameListComponent {
+  games$: Observable<Game[]>;
+  constructor(private gameService: GameService) { // Injecting GameService to fetch game data
+    this.games$ = this.gameService.getGames();
   }
+  errorMessage: string = ''; // Variable to hold error messages
 }
