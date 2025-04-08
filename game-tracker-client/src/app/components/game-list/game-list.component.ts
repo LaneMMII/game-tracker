@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameService, Game } from '../../services/game.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-game-list',
   standalone: true,
-  imports: [CommonModule],   // Imports CommonModule so that *ngIf and *ngFor work in the template
+  imports: [CommonModule, RouterModule],   // Imports CommonModule so that *ngIf and *ngFor work in the template
   templateUrl: './game-list.component.html',
   styleUrls: ['./game-list.component.css']
 })
@@ -17,8 +18,14 @@ export class GameListComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameService.getGames().subscribe({
-      next: (data) => this.games = data,
-      error: (err) => this.errorMessage = err.message
+      next: (data) => {
+        console.log('Games received:', data); // Log the data
+        this.games = data;
+      },
+      error: (err) => {
+        console.error('Error fetching games:', err); // Log the error
+        this.errorMessage = err.message;
+      }
     });
   }
 }
