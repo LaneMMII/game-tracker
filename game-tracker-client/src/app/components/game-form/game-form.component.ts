@@ -44,19 +44,15 @@ export class GameFormComponent implements OnInit {
         status: +this.gameForm.value.status,
         rating: this.gameForm.value.rating ? +this.gameForm.value.rating : undefined,
         platformId: +this.gameForm.value.platformId
-        // Remove platform from here
       };
-      
   
       this.gameService.createGame(newGame).subscribe({
-        next: () => {
-          this.router.navigate(['/games']); // Navigate back to the game list
-        },
+        next: () => this.router.navigate(['/games']),
         error: (err) => {
+          console.error('🔴 Submission error:', err); // Add this
           this.errorMessage = err.error?.message || 'An error occurred while creating the game.';
-          console.error(err);
         }
       });
     }
-  }
+  }  
 }

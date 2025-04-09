@@ -25,16 +25,25 @@ public class GamesController : ControllerBase
         return Ok(game);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Game game)
+[HttpPost]
+public async Task<IActionResult> Create([FromBody] Game game)
+{
+    if (!ModelState.IsValid)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(new { message = "Model validation failed", errors = ModelState });
+        var errorList = ModelState
+            .Where(e => e.Value.Errors.Count > 0)
+            .Select(e => new {
+                Field = e.Key,
+                Errors = e.Value.Errors.Select(x => x.ErrorMessage)
+            });
 
-        await _context.Games.AddAsync(game);
-        await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetById), new { id = game.GameId }, game);
+        return BadRequest(new { message = "Model validation failed", errors = errorList });
     }
+
+    await _context.Games.AddAsync(game);
+    await _context.SaveChangesAsync();
+    return CreatedAtAction(nameof(GetById), new { id = game.GameId }, game);
+}
 
 
     [HttpPut("{id}")]
