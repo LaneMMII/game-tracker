@@ -16,6 +16,7 @@
           <span *ngIf="game.platform; else noPlatform"> (Platform: {{ game.platform.name }})</span>
           <ng-template #noPlatform> (Platform: Unknown)</ng-template>
         </a>
+        <button (click)="deleteGame(game.gameId)">Delete</button>
       </li>
     </ul>
   </div>

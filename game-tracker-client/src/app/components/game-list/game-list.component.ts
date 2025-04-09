@@ -18,4 +18,17 @@ export class GameListComponent {
     this.games$ = this.gameService.getGames();
   }
   errorMessage: string = ''; // Variable to hold error messages
+
+  deleteGame(gameId: number): void {
+    this.gameService.deleteGame(gameId).subscribe({
+      next: () => {
+        // Refresh the game list after deletion
+        this.games$ = this.gameService.getGames();
+      },
+      error: (err) => {
+        console.error('🔴 Deletion error:', err); // Log the error for debugging
+        this.errorMessage = err.error?.message || 'An error occurred while deleting the game.'; // Set the error message
+      }
+    });
+  }
 }
