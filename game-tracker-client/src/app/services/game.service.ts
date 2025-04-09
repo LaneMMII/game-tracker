@@ -9,7 +9,7 @@ export interface Game {
   status: number; // Change this to number to match the backend
   rating?: number;
   platformId: number;
-  platform: { platformId: number; name: string };
+  platform?: { platformId: number; name: string };
 }
 
 @Injectable({

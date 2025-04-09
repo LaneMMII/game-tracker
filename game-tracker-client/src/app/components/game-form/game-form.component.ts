@@ -38,14 +38,15 @@ export class GameFormComponent implements OnInit {
   onSubmit(): void {
     if (this.gameForm.valid) {
       const newGame: Game = {
-        gameId: 0, // The backend will generate the ID
+        gameId: 0,
         title: this.gameForm.value.title,
         genre: this.gameForm.value.genre,
-        status: +this.gameForm.value.status, // Convert to number (enum value)
+        status: +this.gameForm.value.status,
         rating: this.gameForm.value.rating ? +this.gameForm.value.rating : undefined,
-        platformId: +this.gameForm.value.platformId, // Ensure this is a number
-        platform: { platformId: +this.gameForm.value.platformId, name: 'Default Platform' } // Provide a default platform
+        platformId: +this.gameForm.value.platformId
+        // Remove platform from here
       };
+      
   
       this.gameService.createGame(newGame).subscribe({
         next: () => {

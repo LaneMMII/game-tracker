@@ -28,11 +28,14 @@ public class GamesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Game game)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
+        if (!ModelState.IsValid)
+            return BadRequest(new { message = "Model validation failed", errors = ModelState });
+
         await _context.Games.AddAsync(game);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetById), new { id = game.GameId }, game);
     }
+
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, Game updated)
