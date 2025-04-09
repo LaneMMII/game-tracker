@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Game {
-  gameId: number;
+  gameId?: number;
   title: string;
   genre: string;
   status: number; // Change this to number to match the backend

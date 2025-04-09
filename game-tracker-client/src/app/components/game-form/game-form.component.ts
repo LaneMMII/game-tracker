@@ -38,7 +38,6 @@ export class GameFormComponent implements OnInit {
   onSubmit(): void {
     if (this.gameForm.valid) {
       const newGame: Game = {
-        gameId: 0,
         title: this.gameForm.value.title,
         genre: this.gameForm.value.genre,
         status: +this.gameForm.value.status,

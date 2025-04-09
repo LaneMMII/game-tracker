@@ -19,7 +19,12 @@ export class GameListComponent {
   }
   errorMessage: string = ''; // Variable to hold error messages
 
-  deleteGame(gameId: number): void {
+  deleteGame(gameId: number | undefined): void {
+    if (gameId === undefined) {
+      console.error('🔴 Cannot delete game: gameId is undefined');
+      return;
+    }
+  
     this.gameService.deleteGame(gameId).subscribe({
       next: () => {
         // Refresh the game list after deletion
