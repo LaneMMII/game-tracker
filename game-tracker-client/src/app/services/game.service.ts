@@ -6,10 +6,10 @@ export interface Game {
   gameId: number;
   title: string;
   genre: string;
-  status: string;
+  status: number; // Change this to number to match the backend
   rating?: number;
   platformId: number;
-  platform: { platformId: number; name: string; };
+  platform: { platformId: number; name: string };
 }
 
 @Injectable({
@@ -26,5 +26,13 @@ export class GameService {
 
   getGameById(id: number): Observable<Game> {
     return this.http.get<Game>(`${this.apiUrl}/${id}`);
+  }
+
+  createGame(game: Game): Observable<Game> {
+    return this.http.post<Game>(this.apiUrl, game);
+  }
+
+  updateGame(id: number, game: Game): Observable<Game> {
+    return this.http.put<Game>(`${this.apiUrl}/${id}`, game);
   }
 }

@@ -1,0 +1,53 @@
+<div>
+    <h2>Add New Game</h2>
+    <form [formGroup]="gameForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="title">Title:</label>
+        <input id="title" type="text" formControlName="title" />
+        <div *ngIf="gameForm.get('title')?.invalid && gameForm.get('title')?.touched">
+          Title is required.
+        </div>
+      </div>
+  
+      <div>
+        <label for="genre">Genre:</label>
+        <input id="genre" type="text" formControlName="genre" />
+        <div *ngIf="gameForm.get('genre')?.invalid && gameForm.get('genre')?.touched">
+          Genre is required.
+        </div>
+      </div>
+  
+      <div>
+        <label for="status">Status:</label>
+        <select id="status" formControlName="status">
+          <option [value]="0">Planned</option>
+          <option [value]="1">Playing</option>
+          <option [value]="2">Completed</option>
+          <option [value]="3">Dropped</option>
+        </select>
+        <div *ngIf="gameForm.get('status')?.invalid && gameForm.get('status')?.touched">
+          Status is required.
+        </div>
+      </div>
+  
+      <div>
+        <label for="rating">Rating:</label>
+        <input id="rating" type="number" formControlName="rating" />
+      </div>
+  
+      <div>
+        <label for="platformId">Platform ID:</label>
+        <input id="platformId" type="number" formControlName="platformId" />
+        <div *ngIf="gameForm.get('platformId')?.invalid && gameForm.get('platformId')?.touched">
+          Platform ID is required.
+        </div>
+      </div>
+  
+      <button type="submit" [disabled]="gameForm.invalid">Save Game</button>
+    </form>
+  
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+  </div>
+  

@@ -6,7 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 // Register controllers so that MVC controllers (like your GamesController) are discovered.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 
 // OpenAPI configuration (optional, for Swagger UI)
 builder.Services.AddOpenApi();
@@ -15,7 +20,19 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") // Replace with your Angular app's URL
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
+
+app.UseCors(); // Add this before app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 
@@ -30,6 +47,15 @@ app.UseHttpsRedirection();
 
 // Map controller endpoints so that attribute-based routing in your controllers is active.
 app.MapControllers();
+
+// Seed the database with initial data if it is empty.
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    // Optionally, ensure migrations are applied:
+    dbContext.Database.Migrate();
+    DbInit.Seed(dbContext);
+}
 
 // The weather forecast minimal API below is just an example and can be kept or removed.
 var summaries = new[]
