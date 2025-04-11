@@ -56,6 +56,9 @@
           </div>
           <button type="submit">Add Platform</button>
         </form>
+        <div *ngIf="errorMessage" class="error">
+          {{ errorMessage }}
+        </div>
       </div>
   
       <button type="submit" [disabled]="gameForm.invalid">Save Game</button>

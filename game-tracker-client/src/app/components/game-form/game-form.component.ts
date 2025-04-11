@@ -68,18 +68,37 @@ export class GameFormComponent implements OnInit {
 
   addPlatform(): void {
     if (!this.newPlatformName.trim()) {
-      console.error('Platform name is required');
+      this.errorMessage = 'Platform name is required.';
       return;
     }
   
-    const newPlatform: Platform = { platformId: 0, name: this.newPlatformName };
+    const newPlatform: Platform = { 
+      platformId: 0,
+      name: this.newPlatformName 
+    };
+    
+    console.log('Sending platform:', newPlatform);
   
     this.platformService.addPlatform(newPlatform).subscribe({
       next: (platform) => {
-        this.platforms.push(platform); // Add the new platform to the dropdown
-        this.newPlatformName = ''; // Clear the input field
+        console.log('Platform added successfully:', platform);
+        this.platforms.push(platform);
+        this.newPlatformName = '';
+        this.errorMessage = '';
       },
-      error: (err) => console.error('Error adding platform:', err),
+      error: (err) => {
+        console.error('Full error object:', err);
+        
+        if (err.status === 409) {
+          this.errorMessage = 'Platform already exists.';
+        } else if (err.status === 400) {
+          // Extract detailed info if available
+          const errorDetail = err.error?.message || 'Invalid platform data';
+          this.errorMessage = `Bad request: ${errorDetail}`;
+        } else {
+          this.errorMessage = `Error adding platform: ${err.status} ${err.statusText}`;
+        }
+      }
     });
   }
 }
