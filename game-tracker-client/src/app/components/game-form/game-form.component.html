@@ -36,11 +36,26 @@
       </div>
   
       <div>
-        <label for="platformId">Platform ID:</label>
-        <input id="platformId" type="number" formControlName="platformId" />
+        <label for="platformId">Platform:</label>
+        <select id="platformId" formControlName="platformId">
+          <option *ngFor="let platform of platforms" [value]="platform.platformId">
+            {{ platform.name }}
+          </option>
+        </select>
         <div *ngIf="gameForm.get('platformId')?.invalid && gameForm.get('platformId')?.touched">
-          Platform ID is required.
+          Platform is required.
         </div>
+      </div>
+
+      <div>
+        <h3>Add New Platform</h3>
+        <form (ngSubmit)="addPlatform()">
+          <div>
+            <label for="platformName">Platform Name:</label>
+            <input id="platformName" [(ngModel)]="newPlatformName" name="platformName" required />
+          </div>
+          <button type="submit">Add Platform</button>
+        </form>
       </div>
   
       <button type="submit" [disabled]="gameForm.invalid">Save Game</button>

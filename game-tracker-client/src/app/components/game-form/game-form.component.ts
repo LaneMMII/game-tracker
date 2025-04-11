@@ -1,26 +1,29 @@
 // game-form.component.ts
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { GameService, Game } from '../../services/game.service';
 import { Router } from '@angular/router';
+import { PlatformService, Platform } from '../../services/platform.service';
 
 @Component({
   selector: 'app-game-form',
   standalone: true,
-  // Import ReactiveFormsModule and CommonModule so that Angular knows about form directives and structural directives
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './game-form.component.html',
   styleUrls: ['./game-form.component.css']
 })
 export class GameFormComponent implements OnInit {
   gameForm!: FormGroup;
   errorMessage: string = '';
+  platforms: Platform[] = []; // Array to hold platforms
+  newPlatformName: string = '';
 
   constructor(
     private fb: FormBuilder,
     private gameService: GameService,
-    private router: Router
+    private router: Router,
+    private platformService: PlatformService // Injecting PlatformService to fetch platform data
   ) {}
 
   ngOnInit(): void {
@@ -31,6 +34,14 @@ export class GameFormComponent implements OnInit {
       status: ['', Validators.required],
       rating: [''],
       platformId: ['', Validators.required]
+    });
+
+    this.platformService.getPlatforms().subscribe({
+      next: (platforms) => {
+        this.platforms = platforms;
+        //console.log('Platforms:', this.platforms); // Debugging
+      },
+      error: (err) => console.error('Error fetching platforms:', err),
     });
   }
 
@@ -54,4 +65,21 @@ export class GameFormComponent implements OnInit {
       });
     }
   }  
+
+  addPlatform(): void {
+    if (!this.newPlatformName.trim()) {
+      console.error('Platform name is required');
+      return;
+    }
+  
+    const newPlatform: Platform = { platformId: 0, name: this.newPlatformName };
+  
+    this.platformService.addPlatform(newPlatform).subscribe({
+      next: (platform) => {
+        this.platforms.push(platform); // Add the new platform to the dropdown
+        this.newPlatformName = ''; // Clear the input field
+      },
+      error: (err) => console.error('Error adding platform:', err),
+    });
+  }
 }
