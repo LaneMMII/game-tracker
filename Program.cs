@@ -16,6 +16,13 @@ builder.Services.AddControllers()
 // OpenAPI configuration (optional, for Swagger UI)
 builder.Services.AddOpenApi();
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+
 // Register your DbContext (make sure your connection string "DefaultConnection" is set in appsettings.json)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
