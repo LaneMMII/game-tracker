@@ -17,7 +17,6 @@ export class GameFormComponent implements OnInit {
   gameForm!: FormGroup;
   errorMessage: string = '';
   platforms: Platform[] = []; // Array to hold platforms
-  newPlatformName: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +31,7 @@ export class GameFormComponent implements OnInit {
       title: ['', Validators.required],
       genre: ['', Validators.required],
       status: ['', Validators.required],
-      rating: [''],
+      rating: ['', [Validators.min(1), Validators.max(10)]],
       platformId: ['', Validators.required]
     });
 
@@ -65,40 +64,4 @@ export class GameFormComponent implements OnInit {
       });
     }
   }  
-
-  addPlatform(): void {
-    if (!this.newPlatformName.trim()) {
-      this.errorMessage = 'Platform name is required.';
-      return;
-    }
-  
-    const newPlatform: Platform = { 
-      platformId: 0,
-      name: this.newPlatformName 
-    };
-    
-    console.log('Sending platform:', newPlatform);
-  
-    this.platformService.addPlatform(newPlatform).subscribe({
-      next: (platform) => {
-        console.log('Platform added successfully:', platform);
-        this.platforms.push(platform);
-        this.newPlatformName = '';
-        this.errorMessage = '';
-      },
-      error: (err) => {
-        console.error('Full error object:', err);
-        
-        if (err.status === 409) {
-          this.errorMessage = 'Platform already exists.';
-        } else if (err.status === 400) {
-          // Extract detailed info if available
-          const errorDetail = err.error?.message || 'Invalid platform data';
-          this.errorMessage = `Bad request: ${errorDetail}`;
-        } else {
-          this.errorMessage = `Error adding platform: ${err.status} ${err.statusText}`;
-        }
-      }
-    });
-  }
 }

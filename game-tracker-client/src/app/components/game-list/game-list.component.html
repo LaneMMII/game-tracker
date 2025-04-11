@@ -1,12 +1,10 @@
-<div class="container">
-  <router-outlet></router-outlet>
-</div>
 <div *ngIf="errorMessage">
   <p class="error">{{ errorMessage }}</p>
 </div>
 
 <div>
   <button [routerLink]="['/games/create']">Create Game</button>
+  <button [routerLink]="['/platforms/create']" class="platform-button">Add Platform</button>
 </div>
 
 <ng-container *ngIf="games$ | async as games">
@@ -24,6 +22,10 @@
     </ul>
   </div>
 </ng-container>
+
+<div *ngIf="errorMessage">
+  <p class="error">{{ errorMessage }}</p>
+</div>
 
 <ng-template #noGames>
   <p>No games found. Please add some games to the database.</p>
