@@ -1,0 +1,14 @@
+<div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+  
+  <div *ngIf="game">
+    <h2>Game Details</h2>
+    <p><strong>ID:</strong> {{ game.gameId }}</p>
+    <p><strong>Title:</strong> {{ game.title }}</p>
+    <p><strong>Genre:</strong> {{ game.genre }}</p>
+    <p><strong>Status:</strong> {{ game.status }}</p>
+    <p><strong>Rating:</strong> {{ game.rating }}</p>
+    <p><strong>Platform Name:</strong> {{ game.platform?.name || 'Unknown' }}</p>
+    <button [routerLink]="['/games']">Back to Game List</button>
+  </div>
