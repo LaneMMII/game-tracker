@@ -16,7 +16,7 @@ import { PlatformService, Platform } from '../../services/platform.service';
 export class GameFormComponent implements OnInit {
   gameForm!: FormGroup;
   errorMessage: string = '';
-  platforms: Platform[] = []; // Array to hold platforms
+  platforms: Platform[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -32,13 +32,12 @@ export class GameFormComponent implements OnInit {
       genre: ['', Validators.required],
       status: ['', Validators.required],
       rating: ['', [Validators.min(1), Validators.max(10)]],
-      platformId: ['', Validators.required]
+      platformId: ['']
     });
 
     this.platformService.getPlatforms().subscribe({
       next: (platforms) => {
         this.platforms = platforms;
-        //console.log('Platforms:', this.platforms); // Debugging
       },
       error: (err) => console.error('Error fetching platforms:', err),
     });
@@ -47,21 +46,22 @@ export class GameFormComponent implements OnInit {
   // Called when the form is submitted.
   onSubmit(): void {
     if (this.gameForm.valid) {
+      const formValue = this.gameForm.value;
       const newGame: Game = {
-        title: this.gameForm.value.title,
-        genre: this.gameForm.value.genre,
-        status: +this.gameForm.value.status,
-        rating: this.gameForm.value.rating ? +this.gameForm.value.rating : undefined,
-        platformId: +this.gameForm.value.platformId
+        title: formValue.title,
+        genre: formValue.genre,
+        status: +formValue.status,
+        rating: formValue.rating ? +formValue.rating : undefined,
+        platformId: formValue.platformId ? +formValue.platformId : 0 // Default to 0 if undefined
       };
-  
+    
       this.gameService.createGame(newGame).subscribe({
         next: () => this.router.navigate(['/games']),
         error: (err) => {
-          console.error('🔴 Submission error:', err); // Add this
+          console.error('Submission error:', err);
           this.errorMessage = err.error?.message || 'An error occurred while creating the game.';
         }
       });
     }
-  }  
+  }
 }
