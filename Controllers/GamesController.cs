@@ -25,25 +25,32 @@ public class GamesController : ControllerBase
         return Ok(game);
     }
 
-[HttpPost]
-public async Task<IActionResult> Create([FromBody] Game game)
-{
-    if (!ModelState.IsValid)
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] Game game)
     {
-        var errorList = ModelState
-            .Where(e => e.Value.Errors.Count > 0)
-            .Select(e => new {
-                Field = e.Key,
-                Errors = e.Value.Errors.Select(x => x.ErrorMessage)
-            });
+        // Custom validation for optional rating field
+        if (game.Rating.HasValue && (game.Rating < 1 || game.Rating > 10))
+        {
+            ModelState.AddModelError("Rating", "Rating must be between 1 and 10");
+        }
 
-        return BadRequest(new { message = "Model validation failed", errors = errorList });
+        if (!ModelState.IsValid)
+        {
+            var errorList = ModelState
+                .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                .Select(e => new
+                {
+                    Field = e.Key,
+                    Errors = e.Value?.Errors?.Select(x => x.ErrorMessage) ?? Enumerable.Empty<string>()
+                });
+
+            return BadRequest(new { message = "Model validation failed", errors = errorList });
+        }
+
+        await _context.Games.AddAsync(game);
+        await _context.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetById), new { id = game.GameId }, game);
     }
-
-    await _context.Games.AddAsync(game);
-    await _context.SaveChangesAsync();
-    return CreatedAtAction(nameof(GetById), new { id = game.GameId }, game);
-}
 
 
     [HttpPut("{id}")]

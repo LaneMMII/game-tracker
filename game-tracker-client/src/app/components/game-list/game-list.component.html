@@ -2,8 +2,13 @@
   <p class="error">{{ errorMessage }}</p>
 </div>
 
-<div>
-  <button [routerLink]="['/games/create']">Create Game</button>
+<div class="button-container">
+  <button [routerLink]="['/games/create']" class="create-button">
+    Create Game
+  </button>
+  <button [routerLink]="['/platforms/create']" class="platform-button">
+    Add Platform
+  </button>
 </div>
 
 <ng-container *ngIf="games$ | async as games">
@@ -13,14 +18,25 @@
       <li *ngFor="let game of games">
         <a [routerLink]="['/games', game.gameId]">
           <strong>{{ game.title }}</strong> - {{ game.genre }}
-          <span *ngIf="game.platform; else noPlatform"> (Platform: {{ game.platform.name }})</span>
+          <span *ngIf="game.platform; else noPlatform">
+            (Platform: {{ game.platform.name }})</span
+          >
           <ng-template #noPlatform> (Platform: Unknown)</ng-template>
         </a>
-        <button *ngIf="game.gameId !== undefined" (click)="deleteGame(game.gameId)">Delete</button>
+        <button
+          *ngIf="game.gameId !== undefined"
+          (click)="deleteGame(game.gameId)"
+        >
+          Delete
+        </button>
       </li>
     </ul>
   </div>
 </ng-container>
+
+<div *ngIf="errorMessage">
+  <p class="error">{{ errorMessage }}</p>
+</div>
 
 <ng-template #noGames>
   <p>No games found. Please add some games to the database.</p>

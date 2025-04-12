@@ -1,0 +1,30 @@
+<div class="platform-form-container">
+  <h2>Add New Platform</h2>
+
+  <form (ngSubmit)="addPlatform()">
+    <div>
+      <label for="platformName">Platform Name:</label>
+      <div class="input-container">
+        <input
+          id="platformName"
+          [(ngModel)]="newPlatformName"
+          name="platformName"
+          required
+          #platformNameInput="ngModel"
+        />
+        <div
+          *ngIf="platformNameInput.invalid && platformNameInput.touched"
+          class="error"
+        >
+          Platform name is required.
+        </div>
+      </div>
+    </div>
+    <div class="button-group">
+      <button [disabled]="platformNameInput.invalid" type="submit">
+        Add Platform
+      </button>
+      <button type="button" [routerLink]="['/games']">Cancel</button>
+    </div>
+  </form>
+</div>
