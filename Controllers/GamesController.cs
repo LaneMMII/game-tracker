@@ -37,10 +37,11 @@ public class GamesController : ControllerBase
         if (!ModelState.IsValid)
         {
             var errorList = ModelState
-                .Where(e => e.Value.Errors.Count > 0)
-                .Select(e => new {
+                .Where(e => e.Value != null && e.Value.Errors.Count > 0)
+                .Select(e => new
+                {
                     Field = e.Key,
-                    Errors = e.Value.Errors.Select(x => x.ErrorMessage)
+                    Errors = e.Value?.Errors?.Select(x => x.ErrorMessage) ?? Enumerable.Empty<string>()
                 });
 
             return BadRequest(new { message = "Model validation failed", errors = errorList });
