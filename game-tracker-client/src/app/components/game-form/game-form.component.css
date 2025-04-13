@@ -28,13 +28,12 @@ label {
 }
 
 /* Input container */
-/* Input container */
 .input-container {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   min-height: 60px;
-  width: 100%; /* Add this */
+  width: 100%; 
 }
 
 .input-container input,
@@ -44,7 +43,7 @@ label {
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 1rem;
-  box-sizing: border-box; /* Add this */
+  box-sizing: border-box; 
 }
 
 /* Error message styling */

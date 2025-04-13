@@ -14,10 +14,10 @@ import { Game } from '../../services/game.service'; // Importing Game interface 
 })
 export class GameListComponent {
   games$: Observable<Game[]>;
-  constructor(private gameService: GameService) { // Injecting GameService to fetch game data
+  constructor(private gameService: GameService) { 
     this.games$ = this.gameService.getGames();
   }
-  errorMessage: string = ''; // Variable to hold error messages
+  errorMessage: string = ''; 
 
   deleteGame(gameId: number | undefined): void {
     if (gameId === undefined) {

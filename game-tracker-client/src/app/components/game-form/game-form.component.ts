@@ -22,7 +22,7 @@ export class GameFormComponent implements OnInit {
     private fb: FormBuilder,
     private gameService: GameService,
     private router: Router,
-    private platformService: PlatformService // Injecting PlatformService to fetch platform data
+    private platformService: PlatformService
   ) {}
 
   ngOnInit(): void {

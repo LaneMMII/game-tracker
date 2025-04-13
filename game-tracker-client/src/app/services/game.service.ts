@@ -6,7 +6,7 @@ export interface Game {
   gameId?: number;
   title: string;
   genre: string;
-  status: number; // Change this to number to match the backend
+  status: number;
   rating?: number;
   platformId: number;
   platform?: { platformId: number; name: string };
